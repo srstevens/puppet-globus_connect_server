@@ -9,6 +9,8 @@ class globus::params {
       $service_hasstatus  = true
       $service_hasrestart = true
       $config_path        = '/etc/globus-connect-server.conf'
+      
+      $endpoint_name = '%(SHORT_HOSTNAME)s'
     }
 
     default: {

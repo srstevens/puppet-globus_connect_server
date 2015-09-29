@@ -36,23 +36,12 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class globus(
-
+  $endpoint_name = $globus::params::endpoint_name
 ) inherits globus::params {
 
-  include globus::repo
-
-  file { $globus_connect_server_conf:
-    ensure  => present,
-    content => template('globus/globus-connect-server.conf.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package[$globus::params::globus_connect_server_package],
-  }
-
-  package { $globus::params::globus_connect_server_package:
-    ensure  => present,
-    require => Class['globus::repo']
-  }
+  class { 'globus::repo': } ->
+  class { 'globus::install': } ->
+  class { 'globus::config': } ~>
+  class { 'globus::service': }
 
 }
