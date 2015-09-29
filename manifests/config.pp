@@ -1,5 +1,14 @@
 class globus::config(
-  $endpoint_name = $globus::params::endpoint_name
+  $globus_user = $globus::params::globus_user,
+  $globus_password = $globus::params::globus_password,
+  $endpoint_name = $globus::params::endpoint_name,
+  $endpoint_public = $globus::params::endpoint_public,
+  $endpoint_defaultdirectory = $globus::params::endpoint_defaultdirectory,
+  $security_fetchcredentialfromrelay = $globus::params::security_fetchcredentialfromrelay,
+  $security_identitymethod = $globus::params::security_identitymethod,
+  $gridftp_server = $globus::params::gridftp_server,
+  $myproxy_server = $globus::params::myproxy_server,
+  $oauth_logo = undef,
 ) {
 
   include globus::params

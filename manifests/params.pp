@@ -10,7 +10,19 @@ class globus::params {
       $service_hasrestart = true
       $config_path        = '/etc/globus-connect-server.conf'
       
+      # variable format: section_parameter. e.g.
+      #   [Globus]
+      #   User
+      # is $globus_user
+      $globus_user   = '%(GLOBUS_USER)s'
+      $globus_password = '%(GLOBUS_PASSWORD)s'
       $endpoint_name = '%(SHORT_HOSTNAME)s'
+      $endpoint_public = 'False'
+      $endpoint_defaultdirectory = '/~/'
+      $security_fetchcredentialfromrelay = 'True'
+      $security_identitymethod = 'MyProxy'
+      $gridftp_server = '%(HOSTNAME)s'
+      $myproxy_server = '%(HOSTNAME)s'
     }
 
     default: {
