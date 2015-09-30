@@ -1,79 +1,105 @@
 # globus
 
-#### Table of Contents
-
-1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with globus](#setup)
-    * [What globus affects](#what-globus-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with globus](#beginning-with-globus)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
-
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Install and manage Globus Connect Server and Endpoint.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+[Globus Connect Server](https://www.globus.org/globus-connect-server) provides file transfer
+and sharing between Endpoints. This module installs and configures the requisite software and
+sets up an endpoint, based on the instructions in the
+[Globus Resource Provider Guide](http://dev.globus.org/resource-provider-guide/).
 
 ## Setup
 
 ### What globus affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* Installs a YUM configuration for the Globus Toolkit repository
+* Installs the `globus-connect-server` package and its dependencies
+* Configures Connect Server and an Endpoint
+  * sub-component configurations (GridFTP, MyProxy) are optional
+* Runs the Globus `globus-connect-server-setup` command to setup and start services
 
-### Setup Requirements **OPTIONAL**
+See the [Globus Resource Provider Guide](http://dev.globus.org/resource-provider-guide/)
+for details.
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+### Setup Requirements
+
+The command `hostname -f` on the host must return a valid, public FQDN;
+otherwise, the `globus-simple-ca` package will not correctly generate
+certificates.
+
+Open firewall ports as documented in the
+[Globus Resource Provider Guide](http://dev.globus.org/resource-provider-guide/#open-tcp-ports).
 
 ### Beginning with globus
 
-The very basic steps needed for a user to get the module up and running.
+In the appropriate manifest,
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+    include globus
+
+will install a Connect Server and configure with default values. More than likely you
+will want to minimally set login credentials and an endpoint name via Hiera
+
+    globus::config::gcs_globus_user: 'eupathdb'
+    globus::config::gcs_globus_password: 'slfdj02sdil'
+    globus::config::gcs_endpoint_name: 'data'
+
+In my experience, the GridFTP MyProxy hostname needs to be explicitly set unless the 
+FQDN and public IP are set in `/etc/hosts`.
+
+    globus::config::gcs_gridftp_server: 'gc.example.org'
+    globus::config::gcs_gridftp_serverbehindnat: 'True'
+    globus::config::gcs_myproxy_server: 'gc.example.org'
+    globus::config::gcs_myproxy_serverbehindnat: 'True'
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+    include globus
 
-## Reference
+## Hiera Parameters
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+Hiera parameters for configuring a Connect Server are in the `globus::config::` namespace.
+
+### Hiera Parameters affecting Globus Connect Server
+
+See the `globus::config` class for the full list of parameters.
+
+The `/etc/globus-connect-server.conf` file controls the basic Connect
+Server configuration. The settings in this file can be defined through Hiera parameters.
+The Hiera parameter format is lower-cased `section\_gcs\_setting`. For
+example, the Hiera parameter `globus::config::gcs_endpoint\_name: DataSets`
+will set the value
+
+    [ENDPOINT]
+    Name =  DataSets
+
+in the `globus-connect-server.conf` file. The `globus-connect-server.conf` file has
+complete documentation for each setting.
+
+### Hiera Parameters affecting GridFTP logging
+
+By default, GridFTP logging is configured using default values and
+typically can be left as is.
+
+**globus::config::gridftp\_server\_log_conf** - sets the location of the
+configuration file for GridFTP logging. Defaults to
+`/var/lib/globus-connect-server/gridftp.d/globus-connect-server-gridftp-logging`.
+
+**globus::config::gridftp\_server\_log** - sets the location of the
+log file. Defaults to
+`/etc/gridftp.d/globus-connect-server-gridftp-logging`
+
+**globus::config::gridftp\_log\_level** - defines the log level. Defaults to `ERROR,WARN`
+
+### Hiera Parameters affecting MyProxy Server logging
+
+**globus::config::myproxy\_server\_log** - allows changing the location
+of the log file for MyProxy. By default MyProxy logging is in
+`/var/log/messages`.
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Only supported on the RedHat OS family.
 
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.

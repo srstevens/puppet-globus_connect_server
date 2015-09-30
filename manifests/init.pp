@@ -36,7 +36,6 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class globus(
-  $endpoint_name = $globus::params::endpoint_name
 ) inherits globus::params {
 
   class { 'globus::repo': } ->
