@@ -57,7 +57,10 @@ FetchCredentialFromRelay = <%= @security_fetchcredentialfromrelay %>
 ; If not specified, this will default to 
 ; /var/lib/globus-connect-server/grid-security/hostcert.pem
 ;; CertificateFile = 
-;
+<%- if defined?(@security_certificatefile) -%>
+CertificateFile = <%= @security_certificatefile %>
+<%- end -%>
+
 
 ; Path to the private key. 
 ; If FetchCredentialsFromRelay is True, and the fetch conditions are met,
@@ -65,6 +68,9 @@ FetchCredentialFromRelay = <%= @security_fetchcredentialfromrelay %>
 ; If not specified, this will default to 
 ; /var/lib/globus-connect-server/grid-security/hostkey.pem
 ;; KeyFile = 
+<%- if defined?(@security_keyfile) -%>
+KeyFile = <%= @security_keyfile %>
+<%- end -%>
 
 ; Path to where the trusted certificate directory. The
 ; Globus Relay CA will be installed there, as well as the MyProxy
@@ -72,6 +78,9 @@ FetchCredentialFromRelay = <%= @security_fetchcredentialfromrelay %>
 ; If not specified, this will default to
 ; /var/lib/globus-connect-server/grid-security/certificates/
 ;; TrustedCertificateDirectory = 
+<%- if defined?(@security_trustedcertificatedirectory) -%>
+TrustedCertificateDirectory = <%= @security_trustedcertificatedirectory %>
+<%- end -%>
 
 ; Type of identity provider for the Globus service to use. This may
 ; be one of the following values:
@@ -94,15 +103,24 @@ IdentityMethod = <%= @security_identitymethod %>
 ; The possible values of the option are MyProxyGridmapCallout, CILogon, or
 ; Gridmap
 ;; AuthorizationMethod = 
+<%- if defined?(@security_authorizationmethod) -%>
+AuthorizationMethod = <%= @security_authorizationmethod %>
+<%- end -%>
 
 ; Path to a grid-mapfile to use with the Gridmap authorization method. The 
 ; default is shown below
 ;; Gridmap = /etc/grid-security/grid-mapfile
+<%- if defined?(@security_gridmap) -%>
+Gridmap = <%= @security_gridmap %>
+<%- end -%>
 
 
 ; The name of the identity provider (see https://cilogon.org/ for a list
 ; of valid names)
 ;; CILogonIdentityProvider = University of Chicago
+<%- if defined?(@security_cilogonidentityprovider) -%>
+CILogonIdentityProvider = <%= @security_cilogonidentityprovider %>
+<%- end -%>
 
 ;----------------------------------------------------------------------------;
 ;                            GridFTP Configuration                           ;
@@ -125,17 +143,26 @@ Server = <%= @gridftp_server %>
 ; server if the Server above matches the local machine's hostname. The default
 ; is False.
 ;;ServerBehindNAT = True
+<%- if defined?(@gridftp_serverbehindnat) -%>
+ServerBehindNAT = <%= @gridftp_serverbehindnat %>
+<%- end -%>
 
 
 ; Port range to use for incoming connections.  The format is
 ; "startport,endport". If not set, this will default to 50000,51000
 ;; IncomingPortRange = 50000,51000
+<%- if defined?(@gridftp_incomingportrange) -%>
+IncomingPortRange = <%= @gridftp_incomingportrange %>
+<%- end -%>
 
 ; Port range to use for outgoing connections.  The format is
 ; "startport,endport".  Only use this if your firewall restricts outgoing
 ; ports and gridftp won't work otherwise. The default is not restrict outgoing
 ; TCP ports
 ;; OutgoingPortRange = 50000,51000
+<%- if defined?(@gridftp_outgoingportrange) -%>
+OutgoingPortRange = <%= @gridftp_outgoingportrange %>
+<%- end -%>
 
 ; Hostname or IP address of the interface to use for data connections. If not
 ; set in this file, then the default behavior is:
@@ -148,6 +175,9 @@ Server = <%= @gridftp_server %>
 ;   to connect to the IP address that the control connection was established
 ;   on.
 ;; DataInterface =
+<%- if defined?(@gridftp_datainterface) -%>
+DataInterface = <%= @gridftp_datainterface %>
+<%- end -%>
 
 ; Restricted path configuration.
 ; A comma separated list of full paths that clients may access.  Each path may
@@ -163,7 +193,7 @@ Server = <%= @gridftp_server %>
 ; RestrictPaths = RW~,R/data
 ; Allow full access to the home directory, but deny hidden files there:
 ; RestrictPaths = RW~,N~/.*
-RestrictPaths =
+RestrictPaths = <%= @gridftp_restrictpaths %>
 
 ;
 ; Enable sharing with Globus for this server.
@@ -173,6 +203,9 @@ RestrictPaths =
 ; managed endpoint associated with a Globus subscription uuid. Additional
 ; configuration must be done using the endpoint-manage globus cli command.
 ;; Sharing = True
+<%- if defined?(@gridftp_sharing) -%>
+Sharing = <%= @gridftp_sharing %>
+<%- end -%>
 
 ; ------------------------
 ; ADVANCED SHARING OPTIONS
@@ -181,6 +214,9 @@ RestrictPaths =
 ; Using the same syntax as RestrictPaths above, this defines additional 
 ; restrictions which paths that sharing clients may access.
 ;; SharingRestrictPaths = 
+<%- if defined?(@gridftp_sharingrestrictpaths) -%>
+SharingRestrictPaths = <%= @gridftp_sharingrestrictpaths %>
+<%- end -%>
 
 
 ; Path of a directory where GridFTP will store files used to control
@@ -193,6 +229,9 @@ RestrictPaths =
 ; name "/var/globusonline/sharing/bob/" and is writable by bob.
 ;
 ;;SharingStateDir =
+<%- if defined?(@gridftp_sharingstatedir) -%>
+SharingStateDir = <%= @gridftp_sharingstatedir %>
+<%- end -%>
 
 
 ; Allow or Deny sharing for specific users or groups.
@@ -206,10 +245,22 @@ RestrictPaths =
 ; By default these options are not set, and all users are allowed to share.
 
 ;; SharingUsersAllow = 
+<%- if defined?(@gridftp_sharingusersallow) -%>
+SharingUsersAllow = <%= @gridftp_sharingusersallow %>
+<%- end -%>
 ;; SharingGroupsAllow = 
+<%- if defined?(@gridftp_sharinggroupsallow) -%>
+SharingGroupsAllow = <%= @gridftp_sharinggroupsallow %>
+<%- end -%>
 ;;
 ;; SharingUsersDeny = 
+<%- if defined?(@gridftp_sharingusersdeny) -%>
+SharingUsersDeny = <%= @gridftp_sharingusersdeny %>
+<%- end -%>
 ;; SharingGroupsDeny =
+<%- if defined?(@gridftp_sharinggroupsdeny) -%>
+SharingGroupsDeny = <%= @gridftp_sharinggroupsdeny %>
+<%- end -%>
 
 ;-----------------------------------------------------------------------------
 ;                            MyProxy Configuration                           ;
@@ -235,18 +286,27 @@ Server = <%= @myproxy_server %>
 ; server if the Server above matches the local machine's hostname. The default
 ; is False.
 ;;ServerBehindNAT = True
+<%- if defined?(@myproxy_serverbehindnat) -%>
+ServerBehindNAT = <%= @myproxy_serverbehindnat %>
+<%- end -%>
 
 ; Directory in which to place the MyProxy CA files, 
 ; including the cacert and key, and the set of signed certificates. 
 ; If not present, the default is /var/lib/globus-connect-server/myproxy-ca
 ;
 ;; CADirectory = /var/lib/globus-connect-server/myproxy-ca
+<%- if defined?(@myproxy_cadirectory) -%>
+CADirectory = <%= @myproxy_cadirectory %>
+<%- end -%>
 
 ; Path to store the myproxy service configuration file. 
 ; If not specified, the default is
 ; /var/lib/globus-connect-server/myproxy-server.conf
 ; 
 ;; ConfigFile = /var/lib/globus-connect-server/myproxy-server.conf
+<%- if defined?(@myproxy_configfile) -%>
+ConfigFile = <%= @myproxy_configfile %>
+<%- end -%>
 
 [OAuth]
 ; The public host name of the MyProxy OAuth server. 
@@ -254,6 +314,9 @@ Server = <%= @myproxy_server %>
 ; %(HOSTNAME)s will substitute an ec2 instance's public hostname, falling back
 ; to the machine's nodename
 ;; Server = %(HOSTNAME)s
+<%- if defined?(@oauth_server) -%>
+Server = <%= @oauth_server %>
+<%- end -%>
 
 ; If this is set to True, then assume the Server name is the current machine
 ; and configure a OAuth server on this machine, even if it the Server doesn't
@@ -262,6 +325,9 @@ Server = <%= @myproxy_server %>
 ; server if the Server above matches the local machine's hostname. The default
 ; is False.
 ;;ServerBehindNAT = True
+<%- if defined?(@oauth_serverbehindnat) -%>
+ServerBehindNAT = <%= @oauth_serverbehindnat %>
+<%- end -%>
 
 ; A cascading stylesheet file to use with OAuth server web pages. The
 ; stylesheet will be used to style the MyProxy OAuth web interface. If not set,
@@ -270,9 +336,8 @@ Server = <%= @myproxy_server %>
 ;
 ; An image file to use as the logo of the MyProxy OAuth server. If not set,
 ; the Globus logo image is used.
+;; Logo = 
 <%- if defined?(@oauth_logo) -%>
 Logo = <%= @oauth_logo %>
-<%- else -%>
-;; Logo = 
 <%- end -%>
 
