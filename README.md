@@ -60,9 +60,15 @@ FQDN and public IP are set in `/etc/hosts`.
 
 ## Hiera Parameters
 
-Hiera parameters for configuring a Connect Server are in the `globus::config::` namespace.
+**globus::ensure** - `'enabled'`, the default, installs, configures and
+starts Connect Server services. `'absent'` or `'disabled`' stops
+services and removes `globus-*` packages and most Globus-related files.
+Disabling will also remove MyProxy which may not be desired if the node
+is meant to provide that single service.
 
-### Hiera Parameters affecting Globus Connect Server
+### Hiera Parameters affecting Globus Connect Server configuration
+
+Hiera parameters for configuring a Connect Server are in the `globus::config::` namespace.
 
 See the `globus::config` class for the full list of parameters.
 
@@ -96,8 +102,9 @@ log file. Defaults to
 ### Hiera Parameters affecting MyProxy Server logging
 
 **globus::config::myproxy\_server\_log** - allows changing the location
-of the log file for MyProxy. By default MyProxy logging is in
-`/var/log/messages`.
+of the log file for MyProxy. MyProxy logging uses rsyslog and defaults
+to `/var/log/messages`; setting the parameter will add a configuration
+to `/etc/rsyslog.d/` to change the logging.
 
 ## Limitations
 

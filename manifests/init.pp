@@ -36,11 +36,17 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class globus(
+  $ensure = 'enabled'
 ) inherits globus::params {
 
-  class { 'globus::repo': } ->
-  class { 'globus::install': } ->
-  class { 'globus::config': } ~>
-  class { 'globus::service': }
-
+  if $ensure == 'enabled' {
+    class { 'globus::repo': } ->
+    class { 'globus::install': } ->
+    class { 'globus::config': } ~>
+    class { 'globus::service': }
+  } elsif ($ensure == 'disabled' or $ensure == 'absent') {
+    class { 'globus::uninstall': }
+  } else {
+    fail('expected ensure to be enabled, disabled or absent')
+  }  
 }
