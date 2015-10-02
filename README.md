@@ -8,7 +8,7 @@ Install and manage Globus Connect Server and Endpoint.
 
 [Globus Connect Server](https://www.globus.org/globus-connect-server) provides file transfer
 and sharing between Endpoints. This module installs and configures the requisite software and
-sets up an endpoint, based on the instructions in the
+sets up an endpoint. It is modeled on the instructions in the
 [Globus Resource Provider Guide](http://dev.globus.org/resource-provider-guide/).
 
 ## Setup
@@ -35,6 +35,9 @@ Open firewall ports as documented in the
 
 ### Beginning with globus
 
+_Be sure the host's public IP address will DNS-reverses to the public hostname. 
+Otherwise MyProxy authentications are likely to fail._
+
 In the appropriate manifest,
 
     include globus
@@ -46,14 +49,6 @@ will want to minimally set login credentials and an endpoint name via Hiera
     globus::config::gcs_globus_password: 'slfdj02sdil'
     globus::config::gcs_endpoint_name: 'data'
 
-In my experience, the GridFTP MyProxy hostname needs to be explicitly set unless the 
-FQDN and public IP are set in `/etc/hosts`.
-
-    globus::config::gcs_gridftp_server: 'gc.example.org'
-    globus::config::gcs_gridftp_serverbehindnat: 'True'
-    globus::config::gcs_myproxy_server: 'gc.example.org'
-    globus::config::gcs_myproxy_serverbehindnat: 'True'
-
 ## Usage
 
     include globus
@@ -63,7 +58,7 @@ FQDN and public IP are set in `/etc/hosts`.
 **globus::ensure** - `'enabled'`, the default, installs, configures and
 starts Connect Server services. `'absent'` or `'disabled`' stops
 services and removes `globus-*` packages and most Globus-related files.
-Disabling will also remove MyProxy which may not be desired if the node
+Warning: disabling will also remove MyProxy and that may not be desired if the node
 is meant to provide that single service.
 
 ### Hiera Parameters affecting Globus Connect Server configuration
@@ -74,8 +69,8 @@ See the `globus::config` class for the full list of parameters.
 
 The `/etc/globus-connect-server.conf` file controls the basic Connect
 Server configuration. The settings in this file can be defined through Hiera parameters.
-The Hiera parameter format is lower-cased `section\_gcs\_setting`. For
-example, the Hiera parameter `globus::config::gcs_endpoint\_name: DataSets`
+The Hiera parameter format is lower-cased `section_gcs_setting`. For
+example, the Hiera parameter `globus::config::gcs_endpoint_name: DataSets`
 will set the value
 
     [ENDPOINT]
@@ -89,15 +84,12 @@ complete documentation for each setting.
 By default, GridFTP logging is configured using default values and
 typically can be left as is.
 
-**globus::config::gridftp\_server\_log_conf** - sets the location of the
-configuration file for GridFTP logging. Defaults to
-`/var/lib/globus-connect-server/gridftp.d/globus-connect-server-gridftp-logging`.
-
 **globus::config::gridftp\_server\_log** - sets the location of the
-log file. Defaults to
-`/etc/gridftp.d/globus-connect-server-gridftp-logging`
+log file. Defaults to `/var/log/gridftp.log`
 
-**globus::config::gridftp\_log\_level** - defines the log level. Defaults to `ERROR,WARN`
+**globus::config::gridftp\_log\_level** - defines the log level. Defaults to `ERROR,WARN`.
+_Notice: Running `globus-connect-server-setup` will revert the log level
+to the default value. This module accounts for this but be aware if manually running setup._
 
 ### Hiera Parameters affecting MyProxy Server logging
 
