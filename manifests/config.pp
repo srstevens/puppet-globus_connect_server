@@ -61,7 +61,8 @@ class globus::config(
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    # the daemon seems to detect changes so no need notify Service.
+    # globus-connect-server-setup overwrites the conf file, so do this after
+    require => Exec['globus-connect-server-setup'],
   }
 
   if $myproxy_server_log {
