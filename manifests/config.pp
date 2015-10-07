@@ -1,4 +1,5 @@
-class globus::config(
+# Configure Globus endpoint and affiliated services and logging
+class globus::config (
   # globus-connect-server.conf settings
   $gcs_globus_password                      = $globus::params::gcs_globus_password,
   $gcs_globus_user                          = $globus::params::gcs_globus_user,
@@ -51,7 +52,7 @@ class globus::config(
     group   => 'root',
     mode    => '0644',
     require => Package[$globus_connect_server_package],
-    notify => Exec['globus-connect-server-setup'],
+    notify  => Exec['globus-connect-server-setup'],
   }
 
   file { $globus::params::gridftp_server_log_conf:
@@ -88,7 +89,7 @@ class globus::config(
   if ! defined(Service['rsyslog']) {
     service { 'rsyslog':
       ensure => 'running',
-      enable => 'true',
+      enable => true,
     }
   }
 

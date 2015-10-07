@@ -1,16 +1,17 @@
+# Uninstall most Globus Connect Server packages and files
 class globus::uninstall {
 
   exec { 'globus-connect-server-io-cleanup':
-    path => '/bin:/usr/bin:/sbin:/usr/sbin',
-    onlyif => "test -f /usr/bin/globus-connect-server-io-cleanup"
+    path   => '/bin:/usr/bin:/sbin:/usr/sbin',
+    onlyif => 'test -f /usr/bin/globus-connect-server-io-cleanup'
   } ->
   exec { 'globus-connect-server-id-cleanup':
-    path => '/bin:/usr/bin:/sbin:/usr/sbin',
-    onlyif => "test -f /usr/bin/globus-connect-server-id-cleanup"
+    path   => '/bin:/usr/bin:/sbin:/usr/sbin',
+    onlyif => 'test -f /usr/bin/globus-connect-server-id-cleanup'
   } ->
   exec { 'globus-connect-server-web-cleanup':
-    path => '/bin:/usr/bin:/sbin:/usr/sbin',
-    onlyif => "test -f /usr/bin/globus-connect-server-web-cleanup"
+    path   => '/bin:/usr/bin:/sbin:/usr/sbin',
+    onlyif => 'test -f /usr/bin/globus-connect-server-web-cleanup'
   }
 
   package { 'globus-*':
@@ -30,6 +31,6 @@ class globus::uninstall {
     purge   => true,
     force   => true,
     require => Package['globus-*'],
-   }
+  }
 
 }

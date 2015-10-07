@@ -1,3 +1,4 @@
+# Default parameter values
 class globus::params {
 
   case $::osfamily {

@@ -1,3 +1,4 @@
+# Install Globus packages
 class globus::install {
 
   package { $globus::params::globus_connect_server_package:

@@ -1,4 +1,4 @@
-
+# Install Globus yum repo
 class globus::repo {
 
   include globus
@@ -22,7 +22,7 @@ class globus::repo {
 
   exec {  'import-globus-key':
     path    => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command => "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Globus",
+    command => 'rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Globus',
     unless  => "rpm -q gpg-pubkey-$(echo $(gpg --throw-keyids < ${path}) | cut --characters=11-18 | tr '[A-Z]' '[a-z]')",
     require => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-Globus'],
   }
