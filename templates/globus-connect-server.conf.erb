@@ -314,8 +314,13 @@ ConfigFile = <%= @gcs_myproxy_configfile %>
 ; %(HOSTNAME)s will substitute an ec2 instance's public hostname, falling back
 ; to the machine's nodename
 ;; Server = %(HOSTNAME)s
+<%- if (defined?(@gcs_security_identitymethod) and
+        @gcs_security_identitymethod == 'OAuth' ) -%>
 <%- if defined?(@gcs_oauth_server) -%>
-Server = <%= @gcs_oauth_server %>
+<%= "Server = #{@gcs_oauth_server}" %>
+<%- else -%>
+<%= "Server = %(HOSTNAME)s" %>
+<%- end -%>
 <%- end -%>
 
 ; If this is set to True, then assume the Server name is the current machine
