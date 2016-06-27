@@ -1,10 +1,10 @@
 # Install Globus yum repo
-class globus::repo {
+class globus_connect_server::repo {
 
-  include globus
-  include globus::params
+  include ::globus_connect_server
+  include ::globus_connect_server::params
 
-  $globus_repo_rpm  = $globus::params::globus_yumrepo_rpm
+  $globus_repo_rpm  = $globus_connect_server::params::globus_yumrepo_rpm
   $globus_gpg_key   = '/etc/pki/rpm-gpg/RPM-GPG-KEY-Globus'
 
   package { 'globus-toolkit-repo':
@@ -15,7 +15,7 @@ class globus::repo {
 
   file { $globus_gpg_key:
     ensure => present,
-    source => 'puppet:///modules/globus/RPM-GPG-KEY-Globus',
+    source => 'puppet:///modules/globus_connect_server/RPM-GPG-KEY-Globus',
     owner  => 'root',
     group  => 'root',
     mode   => '0644',

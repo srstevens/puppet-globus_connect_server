@@ -1,5 +1,5 @@
 # Default parameter values
-class globus::params {
+class globus_connect_server::params {
 
   case $::osfamily {
     'RedHat': {

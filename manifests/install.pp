@@ -1,9 +1,9 @@
 # Install Globus packages
-class globus::install {
+class globus_connect_server::install {
 
-  package { $globus::params::globus_connect_server_package:
+  package { $globus_connect_server::params::globus_connect_server_package:
     ensure  => present,
-    require => Class['globus::repo']
+    require => Class['globus_connect_server::repo'],
   }
 
 }
