@@ -5,6 +5,7 @@ class globus::repo {
   include globus::params
 
   $globus_repo_rpm  = $globus::params::globus_yumrepo_rpm
+  $globus_gpg_key   = '/etc/pki/rpm-gpg/RPM-GPG-KEY-Globus'
 
   package { 'globus-toolkit-repo':
     ensure   => 'installed',
@@ -12,7 +13,7 @@ class globus::repo {
     provider => 'rpm',
   }
 
-  file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-Globus':
+  file { $globus_gpg_key:
     ensure => present,
     source => 'puppet:///modules/globus/RPM-GPG-KEY-Globus',
     owner  => 'root',
@@ -22,9 +23,9 @@ class globus::repo {
 
   exec {  'import-globus-key':
     path    => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command => 'rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Globus',
-    unless  => "rpm -q gpg-pubkey-$(echo $(gpg --throw-keyids < ${path}) | cut --characters=11-18 | tr '[A-Z]' '[a-z]')",
-    require => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-Globus'],
+    command => "rpm --import ${globus_gpg_key}",
+    unless  => "rpm -q gpg-pubkey-$(echo $(gpg --throw-keyids < ${globus_gpg_key}) | cut --characters=11-18 | tr '[A-Z]' '[a-z]')",
+    require => File[$globus_gpg_key],
   }
 
 }
