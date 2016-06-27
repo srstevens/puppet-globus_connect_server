@@ -66,6 +66,14 @@ class globus::config (
     require => Exec['globus-connect-server-setup'],
   }
 
+  file { '/root/globus-connect-server-setup.rsp':
+    ensure  => 'file',
+    content => template('globus/globus-connect-server-setup.rsp.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+  }
+
   if $myproxy_server_log {
     # move MyProxy logging to its own log file.
     file { '/etc/rsyslog.d/myproxy.conf':
@@ -81,9 +89,10 @@ class globus::config (
 
   exec { 'globus-connect-server-setup':
     path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => 'globus-connect-server-setup',
+    command     => 'globus-connect-server-setup < /root/globus-connect-server-setup.rsp',
     environment => [ "HOME=${::root_home}" ],
     refreshonly => true,
+    require     => File['/root/globus-connect-server-setup.rsp'],
   }
 
   if ! defined(Service['rsyslog']) {
