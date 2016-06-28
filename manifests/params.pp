@@ -6,6 +6,8 @@ class globus_connect_server::params {
       $globus_yumrepo_rpm = 'http://toolkit.globus.org/ftppub/globus-connect-server/globus-connect-server-repo-latest.noarch.rpm'
       $globus_connect_server_package = 'globus-connect-server'
       $globus_connect_server_conf = '/etc/globus-connect-server.conf'
+      $globus_connect_gridftp_conf = '/etc/gridftp.conf'
+      $globus_connect_gridftp_gfork = '/etc/gridftp.gfork'
 
       $gridftp_service_name = 'globus-gridftp-server'
       $gridftp_server_log_conf = '/var/lib/globus-connect-server/gridftp.d/globus-connect-server-gridftp-logging'
@@ -31,8 +33,9 @@ class globus_connect_server::params {
       $gcs_security_keyfile                     = undef
       $gcs_security_trustedcertificatedirectory = undef
       $gcs_gridftp_datainterface                = undef
-      $gcs_gridftp_incomingportrange            = undef
-      $gcs_gridftp_outgoingportrange            = undef
+      $gcs_gridftp_incomingportrange            = '50000-51000'
+      $gcs_gridftp_outgoingportrange            = '50000-51000'
+      $gsc_gridftp_control_channel_port         = 2811
       $gcs_gridftp_restrictpaths                = undef
       $gcs_gridftp_server                       = '%(HOSTNAME)s'
       $gcs_gridftp_serverbehindnat              = undef
@@ -46,6 +49,7 @@ class globus_connect_server::params {
       $gcs_myproxy_cadirectory                  = undef
       $gcs_myproxy_configfile                   = undef
       $gcs_myproxy_server                       = '%(HOSTNAME)s'
+      $gcs_myproxy_port                         = 7512
       $gcs_myproxy_serverbehindnat              = undef
       $gcs_oauth_logo                           = undef
       $gcs_oauth_server                         = undef

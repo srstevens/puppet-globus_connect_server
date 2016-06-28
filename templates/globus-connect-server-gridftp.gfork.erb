@@ -1,0 +1,22 @@
+# globus-gridftp-server configuration file
+service gridftp
+{
+    port = <%= @gsc_gridftp_control_channel_port %>
+    instances = 100
+    log_level = 0
+    env = GLOBUS_LOCATION=/usr
+    env += PATH=/usr/sbin:/usr/bin
+    
+#   might need additional envs for security
+
+    server = /usr/sbin/globus-gridftp-server
+    server_args = -i -aa -l /var/log/gridftp.log
+    server_args += -d WARN -c /etc/gridftp.conf
+    nice = -20
+    master = /usr/sbin/gfs-gfork-master
+    master_args = -G y
+    master_args += -l /var/log/gridftp-master.log
+
+#   undoc the following for memory limiting
+#   master_args += -m
+}

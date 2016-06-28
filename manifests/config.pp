@@ -27,9 +27,11 @@ class globus_connect_server::config (
   $gcs_gridftp_sharingstatedir              = $globus_connect_server::params::gcs_gridftp_sharingstatedir,
   $gcs_gridftp_sharingusersallow            = $globus_connect_server::params::gcs_gridftp_sharingusersallow,
   $gcs_gridftp_sharingusersdeny             = $globus_connect_server::params::gcs_gridftp_sharingusersdeny,
+  $gsc_gridftp_control_channel_port         = $globus_connect_server::params::gsc_gridftp_control_channel_port,
   $gcs_myproxy_cadirectory                  = $globus_connect_server::params::gcs_myproxy_cadirectory,
   $gcs_myproxy_configfile                   = $globus_connect_server::params::gcs_myproxy_configfile,
   $gcs_myproxy_server                       = $globus_connect_server::params::gcs_myproxy_server,
+  $gcs_myproxy_port                         = $globus_connect_server::params::gcs_myproxy_port,
   $gcs_myproxy_serverbehindnat              = $globus_connect_server::params::gcs_myproxy_serverbehindnat,
   $gcs_oauth_logo                           = $globus_connect_server::params::gcs_oauth_logo,
   $gcs_oauth_server                         = $globus_connect_server::params::gcs_oauth_server,
@@ -38,9 +40,11 @@ class globus_connect_server::config (
   # Other  
   $globus_connect_server_package = $globus_connect_server::params::globus_connect_server_package,
   $globus_connect_server_conf    = $globus_connect_server::params::globus_connect_server_conf,
-  $gridftp_server_log      = $globus_connect_server::params::gridftp_server_log,
-  $gridftp_log_level      = $globus_connect_server::params::gridftp_log_level,
-  $myproxy_server_log = $globus_connect_server::params::myproxy_server_log,
+  $globus_connect_gridftp_conf   = $globus_connect_server::params::globus_connect_gridftp_conf,
+  $globus_connect_gridftp_gfork  = $globus_connect_server::params::globus_connect_gridftp_gfork,
+  $gridftp_server_log            = $globus_connect_server::params::gridftp_server_log,
+  $gridftp_log_level             = $globus_connect_server::params::gridftp_log_level,
+  $myproxy_server_log            = $globus_connect_server::params::myproxy_server_log,
 ) {
 
   include ::globus_connect_server::params
@@ -48,6 +52,26 @@ class globus_connect_server::config (
   file { $globus_connect_server_conf:
     ensure  => present,
     content => template('globus_connect_server/globus-connect-server.conf.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0640',
+    require => Package[$globus_connect_server_package],
+    notify  => Exec['globus-connect-server-setup'],
+  }
+
+  file { $globus_connect_gridftp_conf:
+    ensure  => present,
+    content => template('globus_connect_server/globus-connect-server-gridftp.conf.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package[$globus_connect_server_package],
+    notify  => Exec['globus-connect-server-setup'],
+  }
+
+  file { $globus_connect_gridftp_gfork:
+    ensure  => present,
+    content => template('globus_connect_server/globus-connect-server-gridftp.gfork.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

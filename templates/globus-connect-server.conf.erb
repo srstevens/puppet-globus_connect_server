@@ -1,3 +1,5 @@
+; ### This file is managed by the Puppet module <%= @name %>
+;
 ;----------------------------------------------------------------------------;
 ;                          Globus User Configuration
 ;----------------------------------------------------------------------------;
@@ -151,18 +153,14 @@ ServerBehindNAT = <%= @gcs_gridftp_serverbehindnat %>
 ; Port range to use for incoming connections.  The format is
 ; "startport,endport". If not set, this will default to 50000,51000
 ;; IncomingPortRange = 50000,51000
-<%- if defined?(@gcs_gridftp_incomingportrange) -%>
-IncomingPortRange = <%= @gcs_gridftp_incomingportrange %>
-<%- end -%>
+IncomingPortRange = <%= @gcs_gridftp_incomingportrange.gsub(/[:-]/, ',') %>
 
 ; Port range to use for outgoing connections.  The format is
 ; "startport,endport".  Only use this if your firewall restricts outgoing
 ; ports and gridftp won't work otherwise. The default is not restrict outgoing
 ; TCP ports
 ;; OutgoingPortRange = 50000,51000
-<%- if defined?(@gcs_gridftp_outgoingportrange) -%>
-OutgoingPortRange = <%= @gcs_gridftp_outgoingportrange %>
-<%- end -%>
+OutgoingPortRange = <%= @gcs_gridftp_outgoingportrange.gsub(/[:-]/, ',') %>
 
 ; Hostname or IP address of the interface to use for data connections. If not
 ; set in this file, then the default behavior is:
