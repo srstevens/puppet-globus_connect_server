@@ -26,6 +26,8 @@ for details.
 
 ### Setup Requirements
 
+The [stahma/epel](http://github.com/stahnma/puppet-module-epel) Puppet module is required.
+
 The command `hostname -f` on the host must return a valid, public FQDN;
 otherwise, the `globus-simple-ca` package will not correctly generate
 certificates.
