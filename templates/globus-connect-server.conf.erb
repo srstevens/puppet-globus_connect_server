@@ -212,7 +212,7 @@ Sharing = <%= @gcs_gridftp_sharing %>
 ; Using the same syntax as RestrictPaths above, this defines additional 
 ; restrictions which paths that sharing clients may access.
 ;; SharingRestrictPaths = 
-<%- if defined?(@gcs_gridftp_sharingrestrictpaths) -%>
+<%- if defined?(@gcs_gridftp_sharingrestrictpaths) and @gcs_gridftp_sharingrestrictpaths.length > 0 -%>
 SharingRestrictPaths = <%= @gcs_gridftp_sharingrestrictpaths.join(',') %>
 <%- end -%>
 
@@ -243,20 +243,20 @@ SharingStateDir = <%= @gcs_gridftp_sharingstatedir %>
 ; By default these options are not set, and all users are allowed to share.
 
 ;; SharingUsersAllow = 
-<%- if defined?(@gcs_gridftp_sharingusersallow) -%>
+<%- if defined?(@gcs_gridftp_sharingusersallow) and @gcs_gridftp_sharingusersallow.length > 0 -%>
 SharingUsersAllow = <%= @gcs_gridftp_sharingusersallow.join(',') %>
 <%- end -%>
 ;; SharingGroupsAllow = 
-<%- if defined?(@gcs_gridftp_sharinggroupsallow) -%>
+<%- if defined?(@gcs_gridftp_sharinggroupsallow) and @gcs_gridftp_sharinggroupsallow.length > 0 -%>
 SharingGroupsAllow = <%= @gcs_gridftp_sharinggroupsallow.join(',') %>
 <%- end -%>
 ;;
 ;; SharingUsersDeny = 
-<%- if defined?(@gcs_gridftp_sharingusersdeny) -%>
+<%- if defined?(@gcs_gridftp_sharingusersdeny) and @gcs_gridftp_sharingusersdeny.length > 0 -%>
 SharingUsersDeny = <%= @gcs_gridftp_sharingusersdeny.join(',') %>
 <%- end -%>
 ;; SharingGroupsDeny =
-<%- if defined?(@gcs_gridftp_sharinggroupsdeny) -%>
+<%- if defined?(@gcs_gridftp_sharinggroupsdeny) and @gcs_gridftp_sharinggroupsdeny.length > 0 -%>
 SharingGroupsDeny = <%= @gcs_gridftp_sharinggroupsdeny.join(',') %>
 <%- end -%>
 
