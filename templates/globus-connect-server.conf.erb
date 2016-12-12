@@ -191,7 +191,7 @@ DataInterface = <%= @gcs_gridftp_datainterface %>
 ; RestrictPaths = RW~,R/data
 ; Allow full access to the home directory, but deny hidden files there:
 ; RestrictPaths = RW~,N~/.*
-RestrictPaths = <%= @gcs_gridftp_restrictpaths %>
+RestrictPaths = <%= @gcs_gridftp_restrictpaths.join(',') %>
 
 ;
 ; Enable sharing with Globus for this server.
@@ -213,7 +213,7 @@ Sharing = <%= @gcs_gridftp_sharing %>
 ; restrictions which paths that sharing clients may access.
 ;; SharingRestrictPaths = 
 <%- if defined?(@gcs_gridftp_sharingrestrictpaths) -%>
-SharingRestrictPaths = <%= @gcs_gridftp_sharingrestrictpaths %>
+SharingRestrictPaths = <%= @gcs_gridftp_sharingrestrictpaths.join(',') %>
 <%- end -%>
 
 
@@ -244,20 +244,20 @@ SharingStateDir = <%= @gcs_gridftp_sharingstatedir %>
 
 ;; SharingUsersAllow = 
 <%- if defined?(@gcs_gridftp_sharingusersallow) -%>
-SharingUsersAllow = <%= @gcs_gridftp_sharingusersallow %>
+SharingUsersAllow = <%= @gcs_gridftp_sharingusersallow.join(',') %>
 <%- end -%>
 ;; SharingGroupsAllow = 
 <%- if defined?(@gcs_gridftp_sharinggroupsallow) -%>
-SharingGroupsAllow = <%= @gcs_gridftp_sharinggroupsallow %>
+SharingGroupsAllow = <%= @gcs_gridftp_sharinggroupsallow.join(',') %>
 <%- end -%>
 ;;
 ;; SharingUsersDeny = 
 <%- if defined?(@gcs_gridftp_sharingusersdeny) -%>
-SharingUsersDeny = <%= @gcs_gridftp_sharingusersdeny %>
+SharingUsersDeny = <%= @gcs_gridftp_sharingusersdeny.join(',') %>
 <%- end -%>
 ;; SharingGroupsDeny =
 <%- if defined?(@gcs_gridftp_sharinggroupsdeny) -%>
-SharingGroupsDeny = <%= @gcs_gridftp_sharinggroupsdeny %>
+SharingGroupsDeny = <%= @gcs_gridftp_sharinggroupsdeny.join(',') %>
 <%- end -%>
 
 ;-----------------------------------------------------------------------------

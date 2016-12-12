@@ -1,6 +1,6 @@
 # install Globus Connect Server
 class globus_connect_server (
-  $ensure = 'enabled'
+  String $ensure = 'enabled'
 ) {
 
   include ::globus_connect_server::params
