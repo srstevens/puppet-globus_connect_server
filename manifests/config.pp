@@ -5,7 +5,7 @@ class globus_connect_server::config (
   String           $gcs_globus_user                          = $globus_connect_server::params::gcs_globus_user,
   String           $gcs_endpoint_defaultdirectory            = $globus_connect_server::params::gcs_endpoint_defaultdirectory,
   String           $gcs_endpoint_name                        = $globus_connect_server::params::gcs_endpoint_name,
-  Boolean          $gcs_endpoint_public                      = $globus_connect_server::params::gcs_endpoint_public,
+  String           $gcs_endpoint_public                      = $globus_connect_server::params::gcs_endpoint_public,
   Optional[String] $gcs_security_authorizationmethod         = $globus_connect_server::params::gcs_security_authorizationmethod,
   Optional[String] $gcs_security_certificatefile             = $globus_connect_server::params::gcs_security_certificatefile,
   Optional[String] $gcs_security_cilogonidentityprovider     = $globus_connect_server::params::gcs_security_cilogonidentityprovider,
