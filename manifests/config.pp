@@ -1,8 +1,8 @@
 # Configure Globus endpoint and affiliated services and logging
 class globus_connect_server::config (
   # globus-connect-server.conf settings
-  String           $gcs_globus_password                      = $globus_connect_server::params::gcs_globus_password,
-  String           $gcs_globus_user                          = $globus_connect_server::params::gcs_globus_user,
+  String           $gcs_globus_password                      = '%(GLOBUS_PASSWORD)s',
+  String           $gcs_globus_user                          = '%(GLOBUS_USER)s',
   String           $gcs_endpoint_defaultdirectory            = $globus_connect_server::params::gcs_endpoint_defaultdirectory,
   String           $gcs_endpoint_name                        = $globus_connect_server::params::gcs_endpoint_name,
   String           $gcs_endpoint_public                      = $globus_connect_server::params::gcs_endpoint_public,
@@ -90,14 +90,6 @@ class globus_connect_server::config (
     require => Exec['globus-connect-server-setup'],
   }
 
-  file { '/root/globus-connect-server-setup.rsp':
-    ensure  => 'file',
-    content => template('globus_connect_server/globus-connect-server-setup.rsp.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-  }
-
   if $myproxy_server_log {
     # move MyProxy logging to its own log file.
     file { '/etc/rsyslog.d/myproxy.conf':
@@ -114,9 +106,11 @@ class globus_connect_server::config (
   exec { 'globus-connect-server-setup':
     path        => '/bin:/usr/bin:/sbin:/usr/sbin',
     command     => 'globus-connect-server-setup < /root/globus-connect-server-setup.rsp',
-    environment => [ "HOME=${::root_home}" ],
+    environment => [ "HOME=${::root_home}"
+                   "GLOBUS_USER=${::globus_connect_server::params::gcs_globus_user}",
+                   "GLOBUS_PASSWORD=${::globus_connect_server::params::gcs_globus_password}",
+                   ],
     refreshonly => true,
-    require     => File['/root/globus-connect-server-setup.rsp'],
   }
 
   if ! defined(Service['rsyslog']) {
