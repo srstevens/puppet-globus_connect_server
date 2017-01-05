@@ -106,10 +106,11 @@ class globus_connect_server::config (
   exec { 'globus-connect-server-setup':
     path        => '/bin:/usr/bin:/sbin:/usr/sbin',
     command     => 'globus-connect-server-setup',
-    environment => [ "HOME=${::root_home}",
-                   "GLOBUS_USER=${::globus_connect_server::params::gcs_globus_user}",
-                   "GLOBUS_PASSWORD=${::globus_connect_server::params::gcs_globus_password}",
-                   ],
+    environment => [
+      "HOME=${::root_home}",
+      "GLOBUS_USER=${::globus_connect_server::params::gcs_globus_user}",
+      "GLOBUS_PASSWORD=${::globus_connect_server::params::gcs_globus_password}",
+    ],
     refreshonly => true,
   }
 
