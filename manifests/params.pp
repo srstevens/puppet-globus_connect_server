@@ -19,8 +19,9 @@ class globus_connect_server::params {
       #   [Globus]
       #   User
       # is $globus_user
-      $gcs_globus_user                          = '%(GLOBUS_USER)s'
-      $gcs_globus_password                      = '%(GLOBUS_PASSWORD)s'
+      $gcs_globus_user                          = undef
+      $gcs_globus_password                      = undef
+      $gcs_use_env_credentials                  = true
       $gcs_endpoint_name                        = '%(SHORT_HOSTNAME)s'
       $gcs_endpoint_defaultdirectory            = '/~/'
       $gcs_endpoint_public                      = 'False'

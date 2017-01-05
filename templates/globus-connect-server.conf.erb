@@ -10,12 +10,20 @@
 ; Globus user name. If not set, or left at its default, then the
 ; value of GLOBUS_USER environment variable is used, falling back to
 ; prompting if it is not present.
+<%- if @gcs_use_env_credentials -%>
+User = %(GLOBUS_USER)s
+<%- else -%>
 User = <%= @gcs_globus_user %>
+<%- end -%>
 
 ; Globus login password. If not set, or left at its default, then the
 ; value of the GLOBUS_PASSWORD environment variable is used, falling back
 ; to prompting if it is not present.
+<%- if @gcs_use_env_credentials -%>
+Password = %(GLOBUS_PASSWORD)s
+<%- else -%>
 Password = <%= @gcs_globus_password %>
+<%- end -%>
 
 ;----------------------------------------------------------------------------;
 ;                        Globus Endpoint Configuration                       ;

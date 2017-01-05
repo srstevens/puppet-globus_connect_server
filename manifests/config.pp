@@ -1,8 +1,9 @@
 # Configure Globus endpoint and affiliated services and logging
 class globus_connect_server::config (
   # globus-connect-server.conf settings
-  String           $gcs_globus_password                      = '%(GLOBUS_PASSWORD)s',
-  String           $gcs_globus_user                          = '%(GLOBUS_USER)s',
+  String           $gcs_globus_user                          = $globus_connect_server::params::gcs_globus_user,
+  String           $gcs_globus_password                      = $globus_connect_server::params::gcs_globus_password,
+  Boolean          $gcs_use_env_credentials                  = $globus_connect_server::params::gcs_use_env_credentials,
   String           $gcs_endpoint_defaultdirectory            = $globus_connect_server::params::gcs_endpoint_defaultdirectory,
   String           $gcs_endpoint_name                        = $globus_connect_server::params::gcs_endpoint_name,
   String           $gcs_endpoint_public                      = $globus_connect_server::params::gcs_endpoint_public,
@@ -108,8 +109,8 @@ class globus_connect_server::config (
     command     => 'globus-connect-server-setup',
     environment => [
       "HOME=${::root_home}",
-      "GLOBUS_USER=${::globus_connect_server::params::gcs_globus_user}",
-      "GLOBUS_PASSWORD=${::globus_connect_server::params::gcs_globus_password}",
+      "GLOBUS_USER=${gcs_globus_user}",
+      "GLOBUS_PASSWORD=${gcs_globus_password}",
     ],
     refreshonly => true,
   }
