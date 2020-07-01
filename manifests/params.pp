@@ -3,7 +3,7 @@ class globus_connect_server::params {
 
   case $::osfamily {
     'RedHat': {
-      $globus_yumrepo_rpm = 'http://toolkit.globus.org/ftppub/globus-connect-server/globus-connect-server-repo-latest.noarch.rpm'
+      $globus_yumrepo_rpm = 'https://downloads.globus.org/toolkit/globus-connect-server/globus-connect-server-repo-latest.noarch.rpm'
       $globus_connect_server_package = 'globus-connect-server'
       $globus_connect_server_conf = '/etc/globus-connect-server.conf'
       $globus_connect_gridftp_conf = '/etc/gridftp.conf'
@@ -49,7 +49,7 @@ class globus_connect_server::params {
       $gcs_gridftp_sharingusersdeny             = []
       $gcs_myproxy_cadirectory                  = undef
       $gcs_myproxy_configfile                   = undef
-      $gcs_myproxy_server                       = '%(HOSTNAME)s'
+      $gcs_myproxy_server                       = undef
       $gcs_myproxy_port                         = 7512
       $gcs_myproxy_serverbehindnat              = undef
       $gcs_oauth_logo                           = undef

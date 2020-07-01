@@ -31,7 +31,7 @@ class globus_connect_server::config (
   Integer          $gsc_gridftp_control_channel_port         = $globus_connect_server::params::gsc_gridftp_control_channel_port,
   Optional[String] $gcs_myproxy_cadirectory                  = $globus_connect_server::params::gcs_myproxy_cadirectory,
   Optional[String] $gcs_myproxy_configfile                   = $globus_connect_server::params::gcs_myproxy_configfile,
-  String           $gcs_myproxy_server                       = $globus_connect_server::params::gcs_myproxy_server,
+  Optional[String] $gcs_myproxy_server                       = $globus_connect_server::params::gcs_myproxy_server,
   Integer          $gcs_myproxy_port                         = $globus_connect_server::params::gcs_myproxy_port,
   Optional[String] $gcs_myproxy_serverbehindnat              = $globus_connect_server::params::gcs_myproxy_serverbehindnat,
   Optional[String] $gcs_oauth_logo                           = $globus_connect_server::params::gcs_oauth_logo,

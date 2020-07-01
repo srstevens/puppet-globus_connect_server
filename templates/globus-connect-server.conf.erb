@@ -283,7 +283,10 @@ SharingGroupsDeny = <%= @gcs_gridftp_sharinggroupsdeny.join(',') %>
 ; If not set, then no myproxy server will be configured. The special value
 ; %(HOSTNAME)s will substitute an ec2 instance's public hostname, falling back
 ; to the machine's nodename
+;; Server = 
+<%- if defined?(@gcs_myproxy_server) -%>
 Server = <%= @gcs_myproxy_server %>
+<%- end -%>
 
 ; If this is set to True, then assume the Server name is the current machine
 ; and configure a MyProxy server on this machine, even if it the Server doesn't
